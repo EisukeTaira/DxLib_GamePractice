@@ -70,7 +70,7 @@ int WINAPI WinMain(_In_ HINSTANCE ih, _In_opt_ HINSTANCE ioh, _In_ LPSTR il, _In
 	SetFontSize(FONT_SIZE);
 
 	// ゲームループ
-	while (ProcessMessage() != D_ERROR)
+	while (ProcessMessage() != D_ERROR && Input_Escape() == FALSE)
 	{
 		// 入力制御機能更新処理
 		Input_Update();
