@@ -1,64 +1,62 @@
-/*************************************************
+/***********************************************
 * プログラミング実習
 * マッチ３ゲームの制作
-**************************************************/
+***********************************************/
 #include "DxLib.h"
 #include "FreamControl.h"
 #include "InputControl.h"
 #include "SceneManager.h"
 
-/*************************************************
+/***********************************************
 * マクロ定義
-**************************************************/
-#define SCREEN_HEIGHT	(480)		// スクリーンサイズ（高さ）
-#define SCREEN_WIDTH	(640)		// スクリーンサイズ（幅）
-#define SCREEN_COLORBIT	(32)		// スクリーンカラービット
-#define FONT_SIZE		(20)		// 文字サイズ
+***********************************************/
+#define SCREEN_HEIGHT	(480)			// スクリーンサイズ（高さ）
+#define SCREEN_WIDTH	(640)			// スクリーンサイズ（幅）
+#define SCREEN_COLORBIT	(32)			// スクリーンカラービット
+#define FONT_SIZE		(20)			// 文字サイズ
 
-/*************************************************
+/***********************************************
 * 型定義
-**************************************************/
+***********************************************/
 
 
-/*************************************************
+/***********************************************
 * グローバル変数宣言
-**************************************************/
+***********************************************/
 
 
-/*************************************************
+/***********************************************
 * プロトタイプ宣言
-**************************************************/
+***********************************************/
 
 
-
-/*************************************************
+/***********************************************
 * プログラムの開始
-**************************************************/
-int WINAPI WinMain(_In_ HINSTANCE ih, _In_opt_ HINSTANCE ioh, _In_ LPSTR il, _In_ int ii)
+***********************************************/
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
-	// ウィンドウタイトルの設定
-	SetMainWindowText("Match 3 Puzzule");
 
-	// ウィンドウモードで起動
+	// ウィンドタイトル設定
+	SetMainWindowText("Match 3 Puzzle");
+	// ウィンドモードで起動
 	ChangeWindowMode(TRUE);
-
-	// 画面サイズの最大サイズ, カラービット数の設定
+	// 画面サイズの最大サイズ,カラービット数を設定
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_COLORBIT);
 
-
-	// DXライブラリの初期化
+	// Dxライブラリ初期化処理
+	// エラーが発生したら、終了する
 	if (DxLib_Init() == D_ERROR)
 	{
 		return D_ERROR;
 	}
 
 	// 各機能の初期化処理
-	FreamControl_Initialize();
-	Input_Initialize();
+	FreamControl_Initialize();			// フレームレート制御機能
+	Input_Initialize();					// 入力制御機能
 
 	// シーンマネージャー初期化処理
 	// エラーが発生したら、終了する
-	if (SceneManager_Initialize() == D_ERROR)
+	if (SceneManager_Initialize(E_TITLE) == D_ERROR)
 	{
 		return D_ERROR;
 	}
@@ -66,7 +64,7 @@ int WINAPI WinMain(_In_ HINSTANCE ih, _In_opt_ HINSTANCE ioh, _In_ LPSTR il, _In
 	// 描画先画面を裏にする
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// フォントサイズの変更
+	// 文字サイズを設定
 	SetFontSize(FONT_SIZE);
 
 	// ゲームループ
@@ -85,14 +83,13 @@ int WINAPI WinMain(_In_ HINSTANCE ih, _In_opt_ HINSTANCE ioh, _In_ LPSTR il, _In
 		SceneManager_Draw();
 
 		// フレームレート制御処理
-		FreamCotrol_Update();
+		FreamControl_Update();
 
 		// 画面の内容を表画面に反映
 		ScreenFlip();
 
 	}
-
-	// DXライブラリの終了処理
+	// Dxライブラリ使用の終了処理
 	DxLib_End();
 
 	return 0;
